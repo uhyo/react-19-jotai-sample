@@ -23,8 +23,8 @@ export const Layout: FC<{
       >
         {header}
       </header>
-      <div>{main}</div>
-      <div>{checks}</div>
+      <div css={{ padding: "1.5rem" }}>{main}</div>
+      <div css={{ padding: "1.5rem" }}>{checks}</div>
       <Styles />
     </section>
   );
