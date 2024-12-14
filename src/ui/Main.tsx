@@ -1,20 +1,20 @@
 import { atom, useAtomValue } from "jotai";
 import type { FC } from "react";
 import { dataAtom } from "../state/data";
-import { checksAtom } from "../state/checks";
+import { uncheckedAtom } from "../state/checks";
 
 const calculatedDataAtom = atom(async (get) => {
   const data = await get(dataAtom);
-  const checks = await get(checksAtom);
+  const unchecks = await get(uncheckedAtom);
   let sum = 0;
   for (const [prefecture, value = 0] of Object.entries(data)) {
-    if (checks.has(prefecture)) {
+    if (!unchecks.has(prefecture)) {
       sum += value;
     }
   }
-  const average = sum / checks.size;
-  const size = checks.size;
-  // 計算に0.25秒かかる想定
+  const size = Object.entries(data).length - unchecks.size;
+  const average = sum / size;
+  // 計算に0.5秒かかる想定
   await new Promise((resolve) => setTimeout(resolve, 500));
   return { sum, average, size };
 });

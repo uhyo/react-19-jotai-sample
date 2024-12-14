@@ -1,11 +1,11 @@
 import { useAtomValue, useSetAtom } from "jotai";
-import type { FC } from "react";
+import { type FC } from "react";
 import { prefecturesAtom } from "../state/data";
-import { checksAtom, toggleCheckAtom } from "../state/checks";
+import { uncheckedAtom, toggleCheckAtom } from "../state/checks";
 
 export const Checks: FC = () => {
   const prefectures = useAtomValue(prefecturesAtom);
-  const checks = useAtomValue(checksAtom);
+  const unchecks = useAtomValue(uncheckedAtom);
   const toggle = useSetAtom(toggleCheckAtom);
 
   return (
@@ -23,7 +23,7 @@ export const Checks: FC = () => {
             <label>
               <input
                 type="checkbox"
-                checked={checks.has(prefecture)}
+                checked={!unchecks.has(prefecture)}
                 onChange={() => {
                   toggle(prefecture);
                 }}
