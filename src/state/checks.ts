@@ -1,14 +1,15 @@
 import { atom } from "jotai";
 import { prefecturesAtom } from "./data";
+import { derive } from "jotai-derive";
 
 const internalChecksAtom = atom<Set<string> | undefined>(undefined);
 
 export const checksAtom = atom(
-  async (get) => {
+  (get) => {
     const internal = get(internalChecksAtom);
     // 初期状態は全チェック
     if (internal === undefined) {
-      return new Set(await get(prefecturesAtom));
+      return get(prefecturesAtom).then((prefectures) => new Set(prefectures));
     }
     return internal;
   },
@@ -16,6 +17,8 @@ export const checksAtom = atom(
     set(internalChecksAtom, checks);
   },
 );
+
+export const checkCountAtom = derive([checksAtom], (checks) => checks.size);
 
 export const toggleCheckAtom = atom(
   null,

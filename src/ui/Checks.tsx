@@ -1,15 +1,17 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import type { FC } from "react";
 import { prefecturesAtom } from "../state/data";
-import { checksAtom, toggleCheckAtom } from "../state/checks";
+import { checkCountAtom, checksAtom, toggleCheckAtom } from "../state/checks";
 
 export const Checks: FC = () => {
   const prefectures = useAtomValue(prefecturesAtom);
   const checks = useAtomValue(checksAtom);
+  const checkCount = useAtomValue(checkCountAtom);
   const toggle = useSetAtom(toggleCheckAtom);
 
   return (
     <>
+      <p>{checkCount}個選択中</p>
       <ul
         css={{
           listStyleType: "none",
